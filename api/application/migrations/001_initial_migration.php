@@ -5,16 +5,20 @@ class Migration_Initial_migration extends CI_Migration
 {
     public function up()
     {
-        $this->createTableTasks();
-        $this->fillTableTasks();
+        $this->createTableTask();
+        $this->fillTableTask();
+
+        $this->createTableReport();
+        $this->fillTableReport();
     }
 
     public function down()
     {
         $this->dropTable('task');
+        $this->dropTable('report');
     }
 
-    private function createTableTasks()
+    private function createTableTask()
     {
         $this->dbforge->add_field([
             'id' => [
@@ -38,7 +42,7 @@ class Migration_Initial_migration extends CI_Migration
         $this->dbforge->create_table('task', TRUE, ['comment' => '"Lista zadań"']);
     }
 
-    private function fillTableTasks()
+    private function fillTableTask()
     {
         $dataToInsert = [
             [
@@ -52,6 +56,35 @@ class Migration_Initial_migration extends CI_Migration
         ];
 
         $this->db->insert_batch('task', $dataToInsert);
+    }
+
+    private function createTableReport()
+    {
+        $this->dbforge->add_field([
+            'id' => [
+                'auto_increment' => TRUE,
+                'type' => 'INT',
+            ],
+            'user_id' => [
+                'type' => 'INT',
+            ],
+            'task_id' => [
+                'type' => 'INT',
+            ],
+            'started_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL',
+            'finished_at DATETIME',
+            'duration DATETIME',
+        ]);
+
+        $this->addCommonColumns();
+
+        $this->dbforge->add_key('id', TRUE);
+
+        $this->dbforge->create_table('report', TRUE, ['comment' => '"Raport czasu pracy"']);
+    }
+
+    private function fillTableReport()
+    {
     }
 
     private function dropTable(string $tableName = '')
