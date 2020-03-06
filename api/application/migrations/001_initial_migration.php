@@ -73,7 +73,6 @@ class Migration_Initial_migration extends CI_Migration
             ],
             'started_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL',
             'finished_at DATETIME',
-            'duration DATETIME',
         ]);
 
         $this->addCommonColumns();

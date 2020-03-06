@@ -35,7 +35,6 @@ class Timer_model extends CI_Model
 
         $dataToUpdate = [
             'finished_at' => $now,
-            'duration' => null,
             'updated_by' => 0,
             'updated_at' => $now,
         ];

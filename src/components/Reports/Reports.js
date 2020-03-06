@@ -1,7 +1,14 @@
+import React from "react";
 import { withRouter } from "react-router-dom";
+import Chart from "./Chart";
 
 function TasksList() {
-  return "Raport czasów pracy";
+  return (
+    <>
+      <p>Raport czasów pracy</p>
+      <Chart />
+    </>
+  );
 }
 
 export default withRouter(TasksList);
