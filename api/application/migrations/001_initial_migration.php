@@ -1,0 +1,74 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class Migration_Initial_migration extends CI_Migration
+{
+    public function up()
+    {
+        $this->createTableTasks();
+        $this->fillTableTasks();
+    }
+
+    public function down()
+    {
+        $this->dropTable('task');
+    }
+
+    private function createTableTasks()
+    {
+        $this->dbforge->add_field([
+            'id' => [
+                'auto_increment' => TRUE,
+                'type' => 'INT',
+            ],
+            'name' => [
+                'constraint' => 100,
+                'type' => 'VARCHAR',
+            ],
+            'description' => [
+                'constraint' => 1000,
+                'type' => 'VARCHAR',
+            ],
+        ]);
+
+        $this->addCommonColumns();
+
+        $this->dbforge->add_key('id', TRUE);
+
+        $this->dbforge->create_table('task', TRUE, ['comment' => '"Lista zadań"']);
+    }
+
+    private function fillTableTasks()
+    {
+        $dataToInsert = [
+            [
+                'name' => 'Lorem Ipsum',
+                'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel gravida justo. Quisque ac nibh libero.'
+            ],
+            [
+                'name' => 'Aliquam id venenatis tortor',
+                'description' => 'Aliquam id venenatis tortor. Donec at sem at mi condimentum laoreet. Ut sit amet nulla quis sem imperdiet vulputate.'
+            ],
+        ];
+
+        $this->db->insert_batch('task', $dataToInsert);
+    }
+
+    private function dropTable(string $tableName = '')
+    {
+        $this->dbforge->drop_table($tableName, TRUE);
+    }
+
+    private function addCommonColumns()
+    {
+        $this->dbforge->add_field([
+            'created_by INT         DEFAULT 0                   NOT NULL',
+            'created_at DATETIME    DEFAULT CURRENT_TIMESTAMP   NOT NULL',
+            'updated_by INT         DEFAULT NULL',
+            'updated_at DATETIME    DEFAULT NULL',
+            'deleted    INT         DEFAULT 0                   NOT NULL',
+            'deleted_by INT         DEFAULT NULL',
+            'deleted_at DATETIME    DEFAULT NULL',
+        ]);
+    }
+}

@@ -12,3 +12,5 @@ export const MENU = {
     NAME: "/raport"
   }
 };
+
+export const API_URL = "http://localhost/pstt/api/index.php/";

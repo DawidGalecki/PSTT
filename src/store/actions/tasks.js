@@ -1,10 +1,11 @@
 import axios from "axios";
+import { API_URL } from "../../constants";
 
 export function getAllTasksList() {
   return (dispatch) => {
     try {
       axios
-        .get("https://jsonplaceholder.typicode.com/posts")
+        .get(API_URL + "Task/List")
         .then((result) => {
           const { data: list, status } = result;
 
