@@ -19,14 +19,14 @@ class TasksList extends React.Component {
     return (
       <List divided relaxed>
         {allTasksList.map((task, key) => {
-          const { title, body } = task;
+          const { name, description, id } = task;
 
           return (
             <List.Item key={key}>
               <List.Icon name="play" size="large" verticalAlign="middle" />
               <List.Content>
-                <List.Header>{title}</List.Header>
-                <List.Description>{body}</List.Description>
+                <List.Header>{name}</List.Header>
+                <List.Description>{description}</List.Description>
               </List.Content>
             </List.Item>
           );
