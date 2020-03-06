@@ -1,8 +1,14 @@
 export const MENU = {
-  HOME: {
-    NAME: "Zadania"
+  START: {
+    CONTENT: "Start",
+    NAME: "/"
+  },
+  TASKS: {
+    CONTENT: "Lista zadań",
+    NAME: "/zadania"
   },
   REPORTS: {
-    NAME: "Raport"
+    CONTENT: "Raport czasów pracy",
+    NAME: "/raport"
   }
 };
