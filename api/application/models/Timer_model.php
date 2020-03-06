@@ -5,6 +5,11 @@ class Timer_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+
+        $modelsToLoad = [
+            'Task_model',
+        ];
+        $this->load->model($modelsToLoad);
     }
 
     public function StartTimer(array $postData = [])
@@ -17,7 +22,7 @@ class Timer_model extends CI_Model
         $this->db
             ->insert('report', $dataToInsert);
 
-        return ['data' => ['timerId' => $this->db->insert_id(), 'taskId' => $postData['taskId']], 'status' => $this->db->affected_rows() > 0 ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
+        return ['data' => ['timerId' => $this->db->insert_id(), 'taskId' => $postData['taskId'], 'taskName' => $this->Task_model->GetTask($postData['taskId'])['data']->name], 'status' => $this->db->affected_rows() > 0 ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
     }
 
     public function StopTimer(array $postData = [])
@@ -39,6 +44,6 @@ class Timer_model extends CI_Model
             ->where($whereConditions)
             ->update('report', $dataToUpdate);
 
-        return ['data' => ['timerId' => null, 'taskId' => null], 'status' => $this->db->affected_rows() > 0 ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
+        return ['data' => ['timerId' => null, 'taskId' => null, 'taskName' => ''], 'status' => $this->db->affected_rows() > 0 ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
     }
 }

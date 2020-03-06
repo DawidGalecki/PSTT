@@ -1,6 +1,6 @@
 const initialState = {
   timerDetails: [],
-  timerDetailsLoading: true,
+  timerDetailsLoading: true
 };
 
 const timer = (state = initialState, action) => {

@@ -2,6 +2,7 @@ import React from "react";
 import { Menu } from "semantic-ui-react";
 import { MENU } from "../../constants";
 import { withRouter } from "react-router-dom";
+import Timer from "../Timer/Timer";
 
 function MainMenu(props) {
   const {
@@ -30,7 +31,9 @@ function MainMenu(props) {
         onClick={() => history.push(MENU.REPORTS.NAME)}
       />
       <Menu.Menu position="right">
-        <Menu.Item>Timer</Menu.Item>
+        <Menu.Item>
+          <Timer />
+        </Menu.Item>
       </Menu.Menu>
     </Menu>
   );

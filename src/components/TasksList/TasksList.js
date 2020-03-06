@@ -3,7 +3,7 @@ import { List } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { getAllTasksList } from "../../store/actions/tasks";
 import { withRouter } from "react-router-dom";
-import { startTimer, stopTimer } from "../../store/actions/timer";
+import { startTimer, stopTimer, getDetails } from "../../store/actions/timer";
 
 class TasksList extends React.Component {
   constructor(props) {
