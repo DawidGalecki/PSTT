@@ -10,12 +10,16 @@ class Migration_Initial_migration extends CI_Migration
 
         $this->createTableReport();
         $this->fillTableReport();
+
+        $this->createTableUser();
+        $this->fillTableUser();
     }
 
     public function down()
     {
         $this->dropTable('task');
         $this->dropTable('report');
+        $this->dropTable('user');
     }
 
     private function createTableTask()
@@ -84,6 +88,40 @@ class Migration_Initial_migration extends CI_Migration
 
     private function fillTableReport()
     {
+    }
+
+    private function createTableUser()
+    {
+        $this->dbforge->add_field([
+            'id' => [
+                'auto_increment' => TRUE,
+                'type' => 'INT',
+            ],
+            'name' => [
+                'constraint' => 100,
+                'type' => 'VARCHAR',
+            ],
+        ]);
+
+        $this->addCommonColumns();
+
+        $this->dbforge->add_key('id', TRUE);
+
+        $this->dbforge->create_table('user', TRUE, ['comment' => '"Lista użytkowników"']);
+    }
+
+    private function fillTableUser()
+    {
+        $dataToInsert = [
+            [
+                'name' => 'Jan Kowalski',
+            ],
+            [
+                'name' => 'Adam Nowak',
+            ],
+        ];
+
+        $this->db->insert_batch('user', $dataToInsert);
     }
 
     private function dropTable(string $tableName = '')

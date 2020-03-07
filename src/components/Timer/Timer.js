@@ -17,7 +17,6 @@ class Timer extends React.Component {
         }
       }
     } = this.props;
-    console.log(this.props);
 
     const userId = 0;
 

@@ -33,6 +33,8 @@ class TasksList extends React.Component {
 
     const { userId } = this.state;
 
+    // TODO: Select do wyboru użytkownika
+
     return (
       <List divided relaxed>
         {allTasksList.map((task, key) => {

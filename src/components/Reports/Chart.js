@@ -2,38 +2,46 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { Bar } from "react-chartjs-2";
 import { MDBContainer } from "mdbreact";
+import { getReport } from "../../store/actions/reports";
+import { connect } from "react-redux";
 
 class Chart extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dataBar: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [
-          {
-            label: "% of Votes",
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              "rgba(255, 134,159,0.4)",
-              "rgba(98,  182, 239,0.4)",
-              "rgba(255, 218, 128,0.4)",
-              "rgba(113, 205, 205,0.4)",
-              "rgba(170, 128, 252,0.4)",
-              "rgba(255, 177, 101,0.4)"
-            ],
-            borderWidth: 2,
-            borderColor: [
-              "rgba(255, 134, 159, 1)",
-              "rgba(98,  182, 239, 1)",
-              "rgba(255, 218, 128, 1)",
-              "rgba(113, 205, 205, 1)",
-              "rgba(170, 128, 252, 1)",
-              "rgba(255, 177, 101, 1)"
-            ]
-          }
-        ]
-      },
+      dataBar: {},
+      barChartOptions: {}
+    };
+  }
+
+  componentDidMount() {
+    this.getChartData();
+    this.prepareChartData();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      JSON.stringify(prevProps.datesRange) !==
+      JSON.stringify(this.props.datesRange)
+    ) {
+      this.getChartData();
+      this.prepareChartData();
+    }
+  }
+
+  getChartData() {
+    const { getReport, datesRange } = this.props;
+
+    const postData = {
+      datesRange
+    };
+
+    getReport(postData);
+  }
+
+  prepareChartData() {
+    this.setState({
       barChartOptions: {
         responsive: true,
         maintainAspectRatio: false,
@@ -55,24 +63,36 @@ class Chart extends React.Component {
               },
               ticks: {
                 beginAtZero: true,
-                max: 24,
-                min: 0
+                max: 24 // TODO: max => maxValue + 1
               }
             }
           ]
         }
       }
-    };
+    });
   }
 
   render() {
     return (
       <MDBContainer>
         <h3 className="mt-5">Line chart</h3>
-        <Bar data={this.state.dataBar} options={this.state.barChartOptions} />
+        <Bar
+          data={this.props.reports.report}
+          options={this.state.barChartOptions}
+        />
       </MDBContainer>
     );
   }
 }
 
-export default withRouter(Chart);
+const mapStateToProps = (state) => {
+  return state;
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getReport: (datesRange) => dispatch(getReport(datesRange))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Chart));
