@@ -1,23 +1,40 @@
 import React from "react";
-import { List } from "semantic-ui-react";
+import { List, Dropdown, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { getAllTasksList } from "../../store/actions/tasks";
+import { getAllUsersList } from "../../store/actions/users";
 import { withRouter } from "react-router-dom";
-import { startTimer, stopTimer, getDetails } from "../../store/actions/timer";
+import { startTimer, stopTimer } from "../../store/actions/timer";
 
 class TasksList extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      userId: 0
+      userId: 0,
+      userName: "BRAK"
     };
   }
 
   componentDidMount() {
-    const { getAllTasksList } = this.props;
+    const { getAllTasksList, getAllUsersList } = this.props;
 
     getAllTasksList();
+    getAllUsersList();
+  }
+
+  handleUserChange(e, data) {
+    this.setState({ userId: data.value });
+
+    const {
+      users: { allUsersList }
+    } = this.props;
+
+    const user = allUsersList.filter(
+      (user) => parseInt(user.value) === parseInt(data.value)
+    );
+
+    this.setState({ userName: user[0].text });
   }
 
   render() {
@@ -28,49 +45,65 @@ class TasksList extends React.Component {
       timer: {
         timerDetails,
         timerDetails: { taskId: startedTimerTaskId, timerId: startedTimerId }
-      }
+      },
+      users: { allUsersList }
     } = this.props;
 
-    const { userId } = this.state;
-
-    // TODO: Select do wyboru użytkownika
+    const { userId, userName } = this.state;
 
     return (
-      <List divided relaxed>
-        {allTasksList.map((task, key) => {
-          const { name, description, id: taskId } = task;
-          const postData = {
-            userId,
-            taskId,
-            startedTimerId
-          };
+      <>
+        <Dropdown
+          selection
+          placeholder="Wybierz użytkownika"
+          options={allUsersList}
+          onChange={(e, data) => this.handleUserChange(e, data)}
+        />
 
-          return (
-            <List.Item key={key}>
-              <List.Icon
-                name={startedTimerTaskId == taskId ? "pause" : "play"}
-                size="large"
-                verticalAlign="middle"
-                onClick={() =>
-                  timerDetails.length === 0 ||
-                  (startedTimerTaskId === null && startedTimerId === null)
-                    ? startTimer(postData)
-                    : stopTimer(postData)
-                }
-                disabled={
-                  timerDetails.length !== 0 &&
-                  startedTimerTaskId !== taskId &&
-                  startedTimerId !== null
-                }
-              />
-              <List.Content>
-                <List.Header>{name}</List.Header>
-                <List.Description>{description}</List.Description>
-              </List.Content>
-            </List.Item>
-          );
-        })}
-      </List>
+        <Label tag color="">
+          Aktualnie wybrany użytkownik: {userName}
+        </Label>
+
+        <List divided relaxed>
+          {allTasksList.map((task, key) => {
+            const { name, description, id: taskId } = task;
+            const postData = {
+              userId,
+              taskId,
+              startedTimerId
+            };
+
+            return (
+              <List.Item key={key}>
+                <List.Icon
+                  name={
+                    parseInt(startedTimerTaskId) === parseInt(taskId)
+                      ? "pause"
+                      : "play"
+                  }
+                  size="large"
+                  verticalAlign="middle"
+                  onClick={() =>
+                    timerDetails.length === 0 ||
+                    (startedTimerTaskId === null && startedTimerId === null)
+                      ? startTimer(postData)
+                      : stopTimer(postData)
+                  }
+                  disabled={
+                    timerDetails.length !== 0 &&
+                    startedTimerTaskId !== taskId &&
+                    startedTimerId !== null
+                  }
+                />
+                <List.Content>
+                  <List.Header>{name}</List.Header>
+                  <List.Description>{description}</List.Description>
+                </List.Content>
+              </List.Item>
+            );
+          })}
+        </List>
+      </>
     );
   }
 }
@@ -83,7 +116,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllTasksList: () => dispatch(getAllTasksList()),
     startTimer: (postData) => dispatch(startTimer(postData)),
-    stopTimer: (postData) => dispatch(stopTimer(postData))
+    stopTimer: (postData) => dispatch(stopTimer(postData)),
+    getAllUsersList: () => dispatch(getAllUsersList())
   };
 };
 
