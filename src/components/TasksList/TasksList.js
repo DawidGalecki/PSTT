@@ -58,6 +58,10 @@ class TasksList extends React.Component {
           placeholder="Wybierz użytkownika"
           options={allUsersList}
           onChange={(e, data) => this.handleUserChange(e, data)}
+          disabled={
+            timerDetails.length !== 0 &&
+            startedTimerId !== null
+          }
         />
 
         <Label tag color="">
@@ -90,9 +94,10 @@ class TasksList extends React.Component {
                       : stopTimer(postData)
                   }
                   disabled={
-                    timerDetails.length !== 0 &&
-                    startedTimerTaskId !== taskId &&
-                    startedTimerId !== null
+                    (timerDetails.length !== 0 &&
+                      startedTimerTaskId !== taskId &&
+                      startedTimerId !== null) ||
+                    userId === 0
                   }
                 />
                 <List.Content>
