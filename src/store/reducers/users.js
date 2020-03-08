@@ -1,6 +1,8 @@
 const initialState = {
   allUsersList: [],
-  allUsersListLoading: true
+  allUsersListLoading: true,
+  userData: {},
+  userDataLoading: false
 };
 
 const users = (state = initialState, action) => {
@@ -18,6 +20,13 @@ const users = (state = initialState, action) => {
         ...state,
         allUsersList,
         allUsersListLoading: false
+      };
+
+    case "SET_SELECTED_USER":
+      return {
+        ...state,
+        userData: action.userData,
+        userDataLoading: false
       };
 
     default:

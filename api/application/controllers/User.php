@@ -22,4 +22,11 @@ class User extends REST_Controller
 
         $this->response($result['data'], $result['status']);
     }
+
+    public function Get_get(int $userId = 0)
+    {
+        $result = $this->User_model->GetUserDetails($userId);
+
+        $this->response($result['data'], $result['status']);
+    }
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { List, Dropdown, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { getAllTasksList } from "../../store/actions/tasks";
-import { getAllUsersList } from "../../store/actions/users";
+import { getAllUsersList, selectUser } from "../../store/actions/users";
 import { withRouter } from "react-router-dom";
 import { startTimer, stopTimer } from "../../store/actions/timer";
 
@@ -21,20 +21,30 @@ class TasksList extends React.Component {
 
     getAllTasksList();
     getAllUsersList();
+
+    this.setState({
+      userId: this.props.users.userData.id || 0,
+      userName: this.props.users.userData.name || "BRAK"
+    });
   }
 
-  handleUserChange(e, data) {
-    this.setState({ userId: data.value });
+  handleUserChange(e, userData) {
+    const { selectUser } = this.props;
 
-    const {
-      users: { allUsersList }
-    } = this.props;
+    const postData = {
+      id: userData.value
+    };
 
-    const user = allUsersList.filter(
-      (user) => parseInt(user.value) === parseInt(data.value)
-    );
+    selectUser(postData);
 
-    this.setState({ userName: user[0].text });
+    this.setState({
+      userId: this.props.users.allUsersList.filter(
+        (user) => user.value == userData.value
+      )[0].value,
+      userName: this.props.users.allUsersList.filter(
+        (user) => user.value == userData.value
+      )[0].text
+    });
   }
 
   render() {
@@ -58,14 +68,11 @@ class TasksList extends React.Component {
           placeholder="Wybierz użytkownika"
           options={allUsersList}
           onChange={(e, data) => this.handleUserChange(e, data)}
-          disabled={
-            timerDetails.length !== 0 &&
-            startedTimerId !== null
-          }
+          disabled={timerDetails.length !== 0 && startedTimerId !== null}
         />
 
         <Label tag color="">
-          Aktualnie wybrany użytkownik: {userName}
+          Aktualnie{userName}wybrany{userId}użytkownik:
         </Label>
 
         <List divided relaxed>
@@ -122,7 +129,8 @@ const mapDispatchToProps = (dispatch) => {
     getAllTasksList: () => dispatch(getAllTasksList()),
     startTimer: (postData) => dispatch(startTimer(postData)),
     stopTimer: (postData) => dispatch(stopTimer(postData)),
-    getAllUsersList: () => dispatch(getAllUsersList())
+    getAllUsersList: () => dispatch(getAllUsersList()),
+    selectUser: (postData) => dispatch(selectUser(postData))
   };
 };
 
