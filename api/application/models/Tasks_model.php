@@ -1,13 +1,13 @@
 <?php
 
-class Task_model extends CI_Model
+class Tasks_model extends CI_Model
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function GetTasksList()
+    public function GetAllTasksList()
     {
         $dataToSelect = [
             'id',
@@ -15,12 +15,12 @@ class Task_model extends CI_Model
             'description',
         ];
 
-        $list = $this->db
+        $result = $this->db
             ->select($dataToSelect)
-            ->get('task')
+            ->get('tasks')
             ->result();
 
-        return ['data' => $list, 'status' => count($list) > 0 ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
+        return ['data' => $result, 'status' => count($result) > 0 ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
     }
 
     public function GetTask(int $taskId = 0)
@@ -37,9 +37,9 @@ class Task_model extends CI_Model
         $row = $this->db
             ->select($dataToSelect)
             ->where($whereConditions)
-            ->get('task')
+            ->get('tasks')
             ->row();
 
-        return ['data' => $row !== null ? $row : (object) ['id' => 1], 'status' => $row !== null ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
+        return ['data' => $row, 'status' => $row !== null ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
     }
 }

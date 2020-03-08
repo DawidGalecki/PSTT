@@ -5,7 +5,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./store";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import TasksList from "./components/TasksList/TasksList";
+import Tasks from "./components/Tasks/Tasks";
 import { Route, Switch } from "react-router";
 import { MENU } from "./constants";
 import MainMenu from "./components/Common/MainMenu";
@@ -21,7 +21,7 @@ ReactDOM.render(
           <MainMenu />
           <Switch>
             <Route exact path={MENU.START.NAME} component={Start} />
-            <Route exact path={MENU.TASKS.NAME} component={TasksList} />
+            <Route exact path={MENU.TASKS.NAME} component={Tasks} />
             <Route exact path={MENU.REPORTS.NAME} component={Reports} />
             <Route component={Error404} />
           </Switch>

@@ -4,22 +4,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require APPPATH . 'libraries/REST_Controller.php';
 
-class Report extends REST_Controller
+class Tasks extends REST_Controller
 {
     public function __construct()
     {
         parent::__construct();
 
         $modelsToLoad = [
-            'Report_model',
+            'Tasks_model',
         ];
         $this->load->model($modelsToLoad);
     }
 
-    public function Report_post()
+    public function All_get()
     {
-        $postData = $this->post();
-        $result = $this->Report_model->GetReport($postData);
+        $result = $this->Tasks_model->GetAllTasksList();
 
         $this->response($result['data'], $result['status']);
     }

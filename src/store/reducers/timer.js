@@ -1,6 +1,5 @@
 const initialState = {
-  timerDetails: [],
-  timerDetailsLoading: true
+  timerDetails: []
 };
 
 const timer = (state = initialState, action) => {
@@ -8,8 +7,7 @@ const timer = (state = initialState, action) => {
     case "SET_STARTED_TIMER_ID":
       return {
         ...state,
-        timerDetails: action.timerDetails,
-        timerDetailsLoading: false
+        timerDetails: action.timerDetails
       };
 
     default:

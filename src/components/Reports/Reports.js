@@ -1,11 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { Button, Grid, Header, Input } from "semantic-ui-react";
 import Chart from "./Chart";
 import { getReport } from "../../store/actions/reports";
-import { connect } from "react-redux";
-import { Input, Button } from "semantic-ui-react";
 
-class TasksList extends React.Component {
+class Reports extends React.Component {
   constructor(props) {
     super(props);
 
@@ -36,18 +36,18 @@ class TasksList extends React.Component {
     getReport(this.state.datesRange);
   }
 
-  handleDateChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  handleDateChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
-  async handleDateFromChange(e) {
-    await this.setState({ dateFrom: e.target.value });
+  async handleDateFromChange(event) {
+    await this.setState({ dateFrom: event.target.value });
 
     this.handleDatesRangeChange();
   }
 
-  async handleDateToChange(e) {
-    await this.setState({ dateTo: e.target.value });
+  async handleDateToChange(event) {
+    await this.setState({ dateTo: event.target.value });
 
     this.handleDatesRangeChange();
   }
@@ -173,48 +173,82 @@ class TasksList extends React.Component {
 
     return (
       <>
-        <p>Raport czasów pracy</p>
-
-        <Input
-          icon="hourglass start"
-          iconPosition="left"
-          placeholder="Wybierz datę początkową"
-          type="date"
-          name="dateFrom"
-          onChange={(e) => {
-            this.handleDateChange(e);
-            this.handleDateFromChange(e);
-          }}
-          value={dateFrom}
-        />
-        <Input
-          icon="hourglass end"
-          iconPosition="left"
-          placeholder="Wybierz datę końcową"
-          type="date"
-          name="dateTo"
-          onChange={(e) => {
-            this.handleDateChange(e);
-            this.handleDateToChange(e);
-          }}
-          value={dateTo}
-        />
-
-        <Button.Group>
-          <Button onClick={() => this.setTimePeriod("day")}>
-            Bieżący dzień
-          </Button>
-          <Button.Or text="lub" />
-          <Button onClick={() => this.setTimePeriod("week")}>
-            Bieżący tydzień
-          </Button>
-          <Button.Or text="lub" />
-          <Button onClick={() => this.setTimePeriod("month")}>
-            Bieżący miesiąc
-          </Button>
-        </Button.Group>
-
-        <Chart datesRange={datesRange} />
+        <Grid>
+          <Grid.Column width={1}></Grid.Column>
+          <Grid.Column width={14}>
+            <Header as="h1">Raport czasu pracy</Header>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+              commodo sagittis magna, non tempor orci. Etiam efficitur odio quis
+              enim rhoncus faucibus. Praesent metus sapien, volutpat in rhoncus
+              id, congue ac lacus. Nam sit amet iaculis tortor. Nulla mollis
+              interdum augue a sodales. Ut tincidunt posuere felis non lacinia.
+              Etiam pulvinar quam eleifend massa auctor suscipit. Vestibulum
+              eleifend neque lectus. Morbi eget iaculis elit.
+            </p>
+            <Grid columns={2}>
+              <Grid.Row>
+                <Grid.Column floated="left">
+                  <Header as="p">Zakres dat - wskaż ręcznie</Header>
+                  <Input
+                    icon="hourglass start"
+                    iconPosition="left"
+                    placeholder="Wybierz datę początkową"
+                    type="date"
+                    name="dateFrom"
+                    onChange={(e) => {
+                      this.handleDateChange(e);
+                      this.handleDateFromChange(e);
+                    }}
+                    value={dateFrom}
+                  />
+                  <Input
+                    icon="hourglass end"
+                    iconPosition="left"
+                    placeholder="Wybierz datę końcową"
+                    type="date"
+                    name="dateTo"
+                    onChange={(e) => {
+                      this.handleDateChange(e);
+                      this.handleDateToChange(e);
+                    }}
+                    value={dateTo}
+                  />
+                </Grid.Column>
+                <Grid.Column floated="right">
+                  <Header as="p">
+                    Zakres dat - wybierz spośród propozycji
+                  </Header>
+                  <Button.Group>
+                    <Button
+                      color="teal"
+                      onClick={() => this.setTimePeriod("day")}
+                    >
+                      Bieżący dzień
+                    </Button>
+                    <Button.Or text="lub" />
+                    <Button
+                      color="blue"
+                      onClick={() => this.setTimePeriod("week")}
+                    >
+                      Bieżący tydzień
+                    </Button>
+                    <Button.Or text="lub" />
+                    <Button
+                      color="purple"
+                      onClick={() => this.setTimePeriod("month")}
+                    >
+                      Bieżący miesiąc
+                    </Button>
+                  </Button.Group>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+            <Header as="p">Wykres</Header>
+            <Chart datesRange={datesRange} />
+          </Grid.Column>
+          <Grid.Column width={1}></Grid.Column>
+        </Grid>
       </>
     );
   }
@@ -233,4 +267,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(TasksList));
+)(withRouter(Reports));

@@ -5,7 +5,7 @@ export function getAllUsersList() {
   return (dispatch) => {
     try {
       axios
-        .get(API_URL + "User/List")
+        .get(API_URL + "Users/All")
         .then((result) => {
           const { data: list, status } = result;
 
@@ -35,7 +35,7 @@ export function selectUser(userData) {
   return (dispatch) => {
     try {
       axios
-        .get(API_URL + "User/Get/" + userData.id)
+        .get(API_URL + "Users/User/" + userData.id)
         .then((result) => {
           const { data: user, status } = result;
 

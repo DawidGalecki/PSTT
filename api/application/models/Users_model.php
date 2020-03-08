@@ -1,25 +1,25 @@
 <?php
 
-class User_model extends CI_Model
+class Users_model extends CI_Model
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function GetUsersList()
+    public function GetAllUsersList()
     {
         $dataToSelect = [
             'id',
             'name',
         ];
 
-        $list = $this->db
+        $result = $this->db
             ->select($dataToSelect)
-            ->get('user')
+            ->get('users')
             ->result();
 
-        return ['data' => $list, 'status' => count($list) > 0 ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
+        return ['data' => $result, 'status' => count($result) > 0 ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
     }
 
     public function GetUserDetails(int $userId = 0)
@@ -33,12 +33,12 @@ class User_model extends CI_Model
             'id' => $userId,
         ];
 
-        $result = $this->db
+        $row = $this->db
             ->select($dataToSelect)
             ->where($whereConditions)
-            ->get('user')
+            ->get('users')
             ->row();
 
-        return ['data' => $result, 'status' => $result !== null ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
+        return ['data' => $row, 'status' => $row !== null ? HTTP_RESPONSE__SUCCESS : HTTP_RESPONSE__NOT_FOUND];
     }
 }

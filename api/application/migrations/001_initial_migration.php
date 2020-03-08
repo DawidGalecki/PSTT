@@ -5,24 +5,24 @@ class Migration_Initial_migration extends CI_Migration
 {
     public function up()
     {
-        $this->createTableTask();
-        $this->fillTableTask();
+        $this->createTableTasks();
+        $this->fillTableTasks();
 
-        $this->createTableReport();
-        $this->fillTableReport();
+        $this->createTableReports();
+        $this->fillTableReports();
 
-        $this->createTableUser();
-        $this->fillTableUser();
+        $this->createTableUsers();
+        $this->fillTableUsers();
     }
 
     public function down()
     {
-        $this->dropTable('task');
-        $this->dropTable('report');
-        $this->dropTable('user');
+        $this->dropTable('tasks');
+        $this->dropTable('reports');
+        $this->dropTable('users');
     }
 
-    private function createTableTask()
+    private function createTableTasks()
     {
         $this->dbforge->add_field([
             'id' => [
@@ -43,10 +43,10 @@ class Migration_Initial_migration extends CI_Migration
 
         $this->dbforge->add_key('id', TRUE);
 
-        $this->dbforge->create_table('task', TRUE, ['comment' => '"Lista zadań"']);
+        $this->dbforge->create_table('tasks', TRUE, ['comment' => '"Lista zadań"']);
     }
 
-    private function fillTableTask()
+    private function fillTableTasks()
     {
         $dataToInsert = [
             [
@@ -57,12 +57,24 @@ class Migration_Initial_migration extends CI_Migration
                 'name' => 'Aliquam id venenatis tortor',
                 'description' => 'Aliquam id venenatis tortor. Donec at sem at mi condimentum laoreet. Ut sit amet nulla quis sem imperdiet vulputate.'
             ],
+            [
+                'name' => 'Maecenas aliquam lectus nunc',
+                'description' => 'Maecenas aliquam lectus nunc, eu blandit lorem fringilla non. Nullam tempus convallis neque, quis faucibus purus rhoncus vel.'
+            ],
+            [
+                'name' => 'Mauris porttitor, urna',
+                'description' => 'Mauris porttitor, urna vel ornare rhoncus, nunc erat bibendum tortor, nec ornare nulla risus sit amet tellus.'
+            ],
+            [
+                'name' => 'Pellentesque',
+                'description' => 'Pellentesque eget purus nibh. Nullam nisi quam, sollicitudin ac commodo sed, venenatis et elit. Proin odio nisi.'
+            ],
         ];
 
-        $this->db->insert_batch('task', $dataToInsert);
+        $this->db->insert_batch('tasks', $dataToInsert);
     }
 
-    private function createTableReport()
+    private function createTableReports()
     {
         $this->dbforge->add_field([
             'id' => [
@@ -83,14 +95,14 @@ class Migration_Initial_migration extends CI_Migration
 
         $this->dbforge->add_key('id', TRUE);
 
-        $this->dbforge->create_table('report', TRUE, ['comment' => '"Raport czasu pracy"']);
+        $this->dbforge->create_table('reports', TRUE, ['comment' => '"Raporty czasu pracy"']);
     }
 
-    private function fillTableReport()
+    private function fillTableReports()
     {
     }
 
-    private function createTableUser()
+    private function createTableUsers()
     {
         $this->dbforge->add_field([
             'id' => [
@@ -107,10 +119,10 @@ class Migration_Initial_migration extends CI_Migration
 
         $this->dbforge->add_key('id', TRUE);
 
-        $this->dbforge->create_table('user', TRUE, ['comment' => '"Lista użytkowników"']);
+        $this->dbforge->create_table('users', TRUE, ['comment' => '"Lista użytkowników"']);
     }
 
-    private function fillTableUser()
+    private function fillTableUsers()
     {
         $dataToInsert = [
             [
@@ -119,9 +131,12 @@ class Migration_Initial_migration extends CI_Migration
             [
                 'name' => 'Adam Nowak',
             ],
+            [
+                'name' => 'Anna Nieznana',
+            ],
         ];
 
-        $this->db->insert_batch('user', $dataToInsert);
+        $this->db->insert_batch('users', $dataToInsert);
     }
 
     private function dropTable(string $tableName = '')
@@ -132,13 +147,13 @@ class Migration_Initial_migration extends CI_Migration
     private function addCommonColumns()
     {
         $this->dbforge->add_field([
-            'created_by INT         DEFAULT 0                   NOT NULL',
-            'created_at DATETIME    DEFAULT CURRENT_TIMESTAMP   NOT NULL',
-            'updated_by INT         DEFAULT NULL',
-            'updated_at DATETIME    DEFAULT NULL',
-            'deleted    INT         DEFAULT 0                   NOT NULL',
-            'deleted_by INT         DEFAULT NULL',
-            'deleted_at DATETIME    DEFAULT NULL',
+            'created_by INT      DEFAULT 0                 NOT NULL',
+            'created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL',
+            'updated_by INT      DEFAULT NULL',
+            'updated_at DATETIME DEFAULT NULL',
+            'deleted    INT      DEFAULT 0                 NOT NULL',
+            'deleted_by INT      DEFAULT NULL',
+            'deleted_at DATETIME DEFAULT NULL',
         ]);
     }
 }

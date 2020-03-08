@@ -5,7 +5,7 @@ export function getAllTasksList() {
   return (dispatch) => {
     try {
       axios
-        .get(API_URL + "Task/List")
+        .get(API_URL + "Tasks/All")
         .then((result) => {
           const { data: list, status } = result;
 

@@ -8,7 +8,7 @@ export const MENU = {
     NAME: "/zadania"
   },
   REPORTS: {
-    CONTENT: "Raport czasów pracy",
+    CONTENT: "Raport czasu pracy",
     NAME: "/raport"
   }
 };

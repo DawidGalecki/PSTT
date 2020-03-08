@@ -1,6 +1,5 @@
 const initialState = {
-  allTasksList: [],
-  allTasksListLoading: true,
+  allTasksList: []
 };
 
 const tasks = (state = initialState, action) => {
@@ -8,8 +7,7 @@ const tasks = (state = initialState, action) => {
     case "SET_ALL_TASKS_LIST":
       return {
         ...state,
-        allTasksList: action.allTasksList,
-        allTasksListLoading: false
+        allTasksList: action.allTasksList
       };
 
     default:

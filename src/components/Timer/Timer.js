@@ -28,11 +28,11 @@ class Timer extends React.Component {
 
     return timerDetails.length === 0 || startedTimerTaskId === null ? (
       <>
-        <Icon name="clock" />
+        <Icon name="clock" color="teal" />
       </>
     ) : (
       <>
-        <Icon name="pause" onClick={() => stopTimer(postData)} />
+        <Icon name="pause" color="teal" onClick={() => stopTimer(postData)} />
         {startedTimerTaskName}
       </>
     );

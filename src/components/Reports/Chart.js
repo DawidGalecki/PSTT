@@ -1,17 +1,17 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-import { Bar } from "react-chartjs-2";
 import { MDBContainer } from "mdbreact";
-import { getReport } from "../../store/actions/reports";
+import React from "react";
+import { Bar } from "react-chartjs-2";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { getReport } from "../../store/actions/reports";
 
 class Chart extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dataBar: {},
-      barChartOptions: {}
+      barChartOptions: {},
+      dataBar: {}
     };
   }
 
@@ -31,13 +31,13 @@ class Chart extends React.Component {
   }
 
   getChartData() {
-    const { getReport, datesRange } = this.props;
+    const { datesRange, getReport } = this.props;
 
     const postData = {
       datesRange
     };
 
-    getReport(postData);
+    if (datesRange.length > 0) getReport(postData);
   }
 
   prepareChartData() {
@@ -63,7 +63,7 @@ class Chart extends React.Component {
               },
               ticks: {
                 beginAtZero: true,
-                max: 24 // TODO: max => maxValue + 1
+                max: 24
               }
             }
           ]
@@ -74,13 +74,14 @@ class Chart extends React.Component {
 
   render() {
     return (
-      <MDBContainer>
-        <h3 className="mt-5">Line chart</h3>
-        <Bar
-          data={this.props.reports.report}
-          options={this.state.barChartOptions}
-        />
-      </MDBContainer>
+      <>
+        <MDBContainer>
+          <Bar
+            data={this.props.reports.report}
+            options={this.state.barChartOptions}
+          />
+        </MDBContainer>
+      </>
     );
   }
 }

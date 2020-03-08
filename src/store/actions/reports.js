@@ -5,7 +5,7 @@ export function getReport(postData) {
   return (dispatch) => {
     try {
       axios
-        .post(API_URL + "Report/Report", postData)
+        .post(API_URL + "Reports/Get", postData)
         .then((result) => {
           const { data, status } = result;
 

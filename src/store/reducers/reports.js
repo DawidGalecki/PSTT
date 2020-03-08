@@ -1,6 +1,5 @@
 const initialState = {
-  report: [],
-  reportLoading: true
+  report: []
 };
 
 const reports = (state = initialState, action) => {
@@ -8,8 +7,7 @@ const reports = (state = initialState, action) => {
     case "SET_REPORT":
       return {
         ...state,
-        report: action.report,
-        reportLoading: false
+        report: action.report
       };
 
     default:

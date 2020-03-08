@@ -5,7 +5,7 @@ export function startTimer(postData) {
   return (dispatch) => {
     try {
       axios
-        .post(API_URL + "Timer/Start", postData)
+        .post(API_URL + "Timers/Start", postData)
         .then((result) => {
           const { data: timerDetails, status } = result;
 
@@ -26,7 +26,7 @@ export function stopTimer(postData) {
   return (dispatch) => {
     try {
       axios
-        .post(API_URL + "Timer/Stop", postData)
+        .post(API_URL + "Timers/Stop", postData)
         .then((result) => {
           const { data: timerDetails, status } = result;
 
