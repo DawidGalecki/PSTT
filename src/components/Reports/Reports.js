@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import Chart from "./Chart";
 import { getReport } from "../../store/actions/reports";
 import { connect } from "react-redux";
+import { Input, Button } from "semantic-ui-react";
 
 class TasksList extends React.Component {
   constructor(props) {
@@ -172,9 +173,12 @@ class TasksList extends React.Component {
 
     return (
       <>
-        <p>Raport czasów pracy: {datesRange}</p>
+        <p>Raport czasów pracy</p>
 
-        <input
+        <Input
+          icon="hourglass start"
+          iconPosition="left"
+          placeholder="Wybierz datę początkową"
           type="date"
           name="dateFrom"
           onChange={(e) => {
@@ -183,7 +187,10 @@ class TasksList extends React.Component {
           }}
           value={dateFrom}
         />
-        <input
+        <Input
+          icon="hourglass end"
+          iconPosition="left"
+          placeholder="Wybierz datę końcową"
           type="date"
           name="dateTo"
           onChange={(e) => {
@@ -193,9 +200,19 @@ class TasksList extends React.Component {
           value={dateTo}
         />
 
-        <button onClick={() => this.setTimePeriod("day")}>DZIŚ</button>
-        <button onClick={() => this.setTimePeriod("week")}>TEN TYDZIEŃ</button>
-        <button onClick={() => this.setTimePeriod("month")}>TEN MIESIĄC</button>
+        <Button.Group>
+          <Button onClick={() => this.setTimePeriod("day")}>
+            Bieżący dzień
+          </Button>
+          <Button.Or text="lub" />
+          <Button onClick={() => this.setTimePeriod("week")}>
+            Bieżący tydzień
+          </Button>
+          <Button.Or text="lub" />
+          <Button onClick={() => this.setTimePeriod("month")}>
+            Bieżący miesiąc
+          </Button>
+        </Button.Group>
 
         <Chart datesRange={datesRange} />
       </>
